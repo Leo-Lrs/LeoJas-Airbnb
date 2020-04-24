@@ -1,0 +1,73 @@
+
+.page{
+    width: 100%;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 3em;
+    display: flex;
+}
+
+.form{
+    color: white;
+    border-color: white;
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 27.5%;
+    width: 40%;
+}
+
+.formulaire_inscription{
+    
+    border-radius: 2%;
+    background-color: rgb(70, 70, 70);
+    opacity: 0.8;
+}
+
+.inscription{
+    color: white;
+    padding: 1%;
+    margin: 0;
+    list-style: none;
+}
+
+.inscription li{
+    display: flex;
+    flex-direction: column;
+}
+
+.bouton{
+    text-align: center;
+}
+
+#btn1{
+    margin: auto;
+}
+
+h4{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    text-align: center;
+    order: 1;
+    border-top: dashed;
+    border-bottom: dashed;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+input {
+    order:2;
+    outline: none;
+    border: 0;
+    background: none;
+    border-bottom: 2px solid grey;
+}
+
+/*Animations */
+
+::-webkit-input-placeholder {
+    color: transparent;
+}
+
+:focus::-webkit-input-placeholder {
+    color: grey;
+}
