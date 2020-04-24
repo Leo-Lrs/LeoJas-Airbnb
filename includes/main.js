@@ -1,5 +1,6 @@
 var modal = document.getElementById("modal")
 
+var img_Modify = document.getElementById("img_Modify")
 var acc_Modify = document.getElementById("acc_Modify")
 var Name_Modify = document.getElementById("Name_Modify")
 var Lastname_modify = document.getElementById("Lastname_modify")
@@ -13,6 +14,10 @@ var Tel_modify = document.getElementById("Tel_modify")
 
 function openModal(){
   modal.style.top = "0px";
+}
+
+function openimg_Modify(){
+  img_Modify.style.top = "0px";
 }
 
 function openacc_Modify(){

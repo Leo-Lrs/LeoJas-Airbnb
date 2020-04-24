@@ -1,15 +1,16 @@
 <!doctype html>
 <html lang="en">
-    
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga&display=swap" rel="stylesheet">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@0.5.2/dist/css/axentix.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
     
 </head>
 
@@ -30,14 +31,11 @@
                     <i class="fas fa-bars"></i>
                     Menu
                 </button>
-                <!-- <button data-target="main-sidenav" class="sidenav-trigger btn circle white hide-sm-up ">
-                <i class="fas fa-bars"></i>
-                Menu
-            </button> -->
                 <?php nav() ?>
             </nav>
         </div>
     </header>
+
     <div id="example-sidenav" class="sidenav white">
         <div class="sidenav-header hide-md-up">
             <button data-target="example-sidenav" class="sidenav-trigger btn small white hide-md-up hide-xs shadow-0">
@@ -66,12 +64,12 @@
     <form action="pages/annonces.php" method="post" class="form-field">
         <div class="search_div">
             <div class="select_option">
-                <label class="search_title1" for="nbPlace-select"> Nombre de voyageurs </label>
+                <label class="search_title1"> Nombre de voyageurs </label>
 
                 <div class="grix pos-xs2">
                     <div class="grix xs6">
                         <div class="form-field">
-                            <select name="places" id="nbPlace-select">
+                            <select name="places" id="type-select">
                                 <option value="">--Please choose an option--</option>
                                 <option value="1">1 voyageur</option>
                                 <option value="2">2 voyageurs</option>
@@ -83,7 +81,7 @@
                     </div>
                 </div>
 
-                <label class="search_title2" for="type-select"> Type de bien</label>
+                <label class="search_title2"> Type de bien</label>
 
                 <div class="grix pos-xs2">
                     <div class="grix xs6">
@@ -98,21 +96,7 @@
                     </div>
                 </div>
 
-                <label class="search_title3" for="bain-select">Quelle période</label>
-                <div class="grix pos-xs2">
-                    <div class="grix xs6">
-                        <div class="form-field">
-                            <select name="bains" id="bain-select">
-                                <option value="">--Please choose an option--</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3+">3+</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <label class="search_title4" for="ville-select"> Prix </label>
+                <label class="search_title4"> Prix </label>
 
                 <div class="grix pos-xs2">
                     <div class="grix xs6">
@@ -127,11 +111,11 @@
                     </div>
                 </div>
 
-                <label class="search_title5" for="ville-select"> Ville </label>
+                <label class="search_title5"> Ville </label>
                 <div class="grix pos-xs2">
                     <div class="grix xs6">
                         <div class="form-field">
-                            <select name="villes" id="ville-select">
+                            <select name="villes" id="type-select">
                                 <option value="">--Please choose an option--</option>
                                 <?= choixVille() ?>
                             </select>
@@ -174,7 +158,7 @@
         </form>
     </div>
 
-        <?php include "partials/footer.php" ?>
+    <?php include "partials/footer.php" ?>
 
     <script src="https://cdn.jsdelivr.net/npm/axentix@0.5.2/dist/js/axentix.min.js"></script>
     <script src="includes/main.js" type="text/javascript"></script>

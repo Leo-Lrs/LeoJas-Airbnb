@@ -50,7 +50,7 @@
             </div>
 
             <h4> Modifier une annonce </h4>
-            <form action="add_annonce.php" method="post" id="form_addAnnonce" class="form-example" enctype="multipart/form-data">
+            <form action="mod_annonce.php" method="post" id="form_addAnnonce" class="form-example" enctype="multipart/form-data">
                 <div class="grix pos-xs2">
                     <div class="grix xs6">
                         <div class="form-field" id="form_Annonce">
@@ -58,7 +58,6 @@
                             <input type="text" class="form-control" name="nom" required> <br>
                         </div>
                     </div>
-
                     <div class="grix xs6">
                         <div class="form-field" id="form_Annonce">
                             <label class="txt-center" for="select">Nombre de voyageurs</label>
@@ -117,11 +116,10 @@
                             <input type="text" class="form-control" name="description" placeholder="Description de votre bien.." required> <br>
                         </div>
                     </div>
-
                     <input type="file" name="image">
-                    <br>
+                <br>
                 </div>
-                <button id="btn_addAnn" type="submit" name="ajout" class="btn primary outline opening txt-orange light-2"><span class="outline-text"> Ajouter </span></button>
+                <button id="btn_addAnn" type="submit" name="modifyy" class="btn primary outline opening txt-orange light-2"><span class="outline-text"> Modifier </span></button>
             </form>
         </div>
 

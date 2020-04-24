@@ -28,6 +28,7 @@
 <?php updateUserTel() ?>
 <?php updateUserAcc() ?>
 <?php updateUserPwd() ?>
+<?php updateUserImg() ?>
 
 <body>
 	<div class="navbar-fixed">
@@ -56,7 +57,13 @@
 	</div>
 
 	<?php users() ?>
-
+	<div id="img_Modify">
+		<form action="profil.php" method="post" class="input-group2">
+			<input type="file" name="image">
+			<br>
+			<button type="submit" name="modifierImg" class="submit-btn"> Appliquer</button>
+		</form>
+	</div>
 	<div id="acc_Modify">
 		<form action="profil.php" method="post" class="input-group2">
 			<input type="text" name="accNom" placeholder="accNom" class="input-field" required>
@@ -113,6 +120,13 @@
 			<button type="submit" name="modifierTel" class="submit-btn"> Appliquer</button>
 		</form>
 	</div>
+	<div id="Testt">
+		<form action="profil.php" method="post" class="input-group2">
+			<button type="submit" name="supprimer" class="submit-btn"> Supprimer</button>
+		</form>
+	</div>
+
+
 
 	<footer>
 		<?php include "../partials/footer.php" ?>

@@ -54,6 +54,19 @@ function addAnnonces()
 
 function modAnnonce()
 {
+    if (isset($_FILES['image']) and !empty($_FILES['image']['name'])) {
+
+        $image = $_FILES['image']['name'];
+
+        $target = "../img/" . basename($image);
+
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+            $msg = "Image uploaded successfully";
+        } else {
+            $msg = "Failed to upload image";
+        }
+    }
+
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
     } catch (Exception $e) {
@@ -62,26 +75,26 @@ function modAnnonce()
 
     $idannonce = $_SESSION['idannonce'];
 
-    $req = $bdd->prepare("UPDATE annonce SET nom=:nom, logement=:logement, 
-    voyageurs=:voyageurs, typlogement=:typlogement, nbbain=:nbbain, 
-    ville=:ville, addresse=:addresse, codepostal=:codepostal WHERE id = $idannonce");
+    $req = $bdd->prepare("UPDATE annonce SET idhote=:idhote, nom=:nom, voyageurs=:voyageurs, typlogement=:typlogement, 
+    prix=:prix, ville=:ville, addresse=:addresse, codepostal=:codepostal, description=:description, image=:image WHERE id = $idannonce");
     $req->execute([
+        'idhote' => $_SESSION['id'],
         'nom' => $_POST['nom'],
-        'logement' => $_POST['logement'],
         'voyageurs' => $_POST['voyageurs'],
         'typlogement' => $_POST['typlogement'],
-        'nbbain' => $_POST['nbbain'],
+        'prix' => $_POST['prix'],
         'ville' => $_POST['ville'],
         'addresse' => $_POST['addresse'],
         'codepostal' => $_POST['codepostal'],
-        'id' => $_POST['id']
+        'description' => $_POST['description'],
+        'image' => $image
     ]);
     $req->closeCursor();
 }
 
 function modAnnonces()
 {
-    if (isset($_POST['modify'])) {
+    if (isset($_POST['modifyy'])) {
         modAnnonce();
     }
 }
@@ -109,6 +122,19 @@ function delAnnonces()
 
 function users()
 {
+    if (isset($_FILES['image']) and !empty($_FILES['image']['name'])) {
+
+        $image = $_FILES['image']['name'];
+
+        $target = "../img/" . basename($image);
+
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+            $msg = "Image uploaded successfully";
+        } else {
+            $msg = "Failed to upload image";
+        }
+    }
+    
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
     } catch (Exception $e) {
@@ -116,39 +142,41 @@ function users()
     }
     $id = $_SESSION['id'];
 
-    $req = $bdd->query("SELECT nom, prenom, age, mail, ville, cp, accNom, pwd, tel FROM users WHERE id LIKE $id");
+    $req = $bdd->query("SELECT nom, prenom, age, mail, ville, cp, accNom, pwd, tel, image FROM users WHERE id LIKE $id");
 
     while ($donnees = $req->fetch()) {
         echo
             '<div> '
-                . '<h6> Nom de compte </h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openacc_Modify()"><i class="far fa-edit"></i></button>'
+                . '<img class="image_user" alt="Photo de profil" src="../img/' . $donnees['image'] . '">' 
+                . '<button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openimg_Modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Nom de compte </h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openacc_Modify()"><i class="far fa-edit"></i></button>'
                 . '<div class="A">' . $donnees['accNom'] . '</div>'
                 . "<hr>"
-                . '<h6> Nom de famille </h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openName_modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Nom de famille </h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openName_modify()"><i class="far fa-edit"></i></button>'
 
                 . "<br />" . '<div class="A">' . $donnees['nom'] . '</div>'
                 . "<hr>"
-                . '<h6> Prénom </h6></h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openLastname_modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Prénom </h6></h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openLastname_modify()"><i class="far fa-edit"></i></button>'
 
                 . "<br />" . '<div class="A">' . $donnees['prenom'] . '</div>'
                 . "<hr>"
-                . '<h6> Âge </h6></h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openAge_modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Âge </h6></h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openAge_modify()"><i class="far fa-edit"></i></button>'
 
                 . "<br />" . '<div class="A">' . $donnees['age'] . '</div>'
                 . "<hr>"
-                . '<h6> Adresse Mail </h6></h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openEmail_modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Adresse Mail </h6></h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openEmail_modify()"><i class="far fa-edit"></i></button>'
 
                 . "<br />" . '<div class="A">' . $donnees['mail'] . '</div>'
                 . "<hr>"
-                . '<h6> Ville </h6></h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openCity_modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Ville </h6></h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openCity_modify()"><i class="far fa-edit"></i></button>'
 
                 . "<br />" . '<div class="A">' . $donnees['ville'] . "," . " " . $donnees['cp'] . '</div>'
                 . "<hr>"
-                . '<h6> Mot de passe </h6></h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openPwd_modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Mot de passe </h6></h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openPwd_modify()"><i class="far fa-edit"></i></button>'
 
                 . "<br />" . '<div class="A">' . $donnees['pwd'] . '</div>'
                 . "<hr>"
-                . '<h6> Téléphone </h6></h6><button id="btn_modifyUser"class="btn small circle red light-4" onclick="openTel_modify()"><i class="far fa-edit"></i></button>'
+                . '<h6> Téléphone </h6></h6><button id="btn_modifyUser"class="btn small circle blue blue light-3" onclick="openTel_modify()"><i class="far fa-edit"></i></button>'
 
                 . "<br />" . '<div class="A">' . $donnees['tel'] . '</div>'
                 . "<hr>"
@@ -188,6 +216,19 @@ function AddUser()
     }
 }
 
+function reqDelAnnonceUser()
+{
+    try {
+        $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+
+    $req = $bdd->prepare("DELETE FROM annonce WHERE idhote=:idhote ");
+    $req->execute(['idhote' => $_SESSION['id']]);
+    $req->closeCursor();
+}
+
 function reqDelUser()
 {
     try {
@@ -203,7 +244,11 @@ function reqDelUser()
 function delUser()
 {
     if (isset($_POST['supprimer'])) {
+        reqDelAnnonceUser();
         reqDelUser();
+        session_destroy();
+        echo '<body onLoad="alert(\'Vous êtes déconnecté\')">';
+        header('Location: http://localhost/LeoJas-Airbnb/');
     }
 }
 
@@ -394,6 +439,26 @@ function reqUpDateUserAcc()
     $req->closeCursor();
 }
 
+function reqUpDateUserImg()
+{
+    try {
+        $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+    $req = $bdd->prepare("UPDATE users SET image=:image WHERE id=:id ");
+    $req->execute([
+        'image' => $_POST['image'], 'id' => $_SESSION['id']
+    ]);
+    $req->closeCursor();
+}
+
+function updateUserImg()
+{
+    if (isset($_POST['modifierImg'])) {
+        reqUpDateUserImg();
+    }
+}
 function reqUpDateUserPwd()
 {
     try {
@@ -453,7 +518,7 @@ function nav2()
 {
     if (isset($_SESSION['login']) == 'yes') {
         echo
-            '<div class="navbar-menu  ml-auto">
+            '<div class="navbar-menu hide-sm-down ml-auto">
             <a class="navbar-link" href="annonces.php">Annonces</a>
             <a class="navbar-link" href="add_annonce.php">Publier une annonce</a>
             <div class="dropdown" id="example-dropdown">
@@ -476,45 +541,6 @@ function nav2()
         </div>';
 }
 
-function annonces_All()
-{
-    $_SESSION['search'];
-    if ($_SESSION['search'] != "oui") {
-        try {
-            $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-
-        $req = $bdd->query("SELECT * FROM annonce");
-
-        while ($donnees = $req->fetch()) {
-            echo
-                '<div class="container_add"> '
-                    . '<img class="image_annonce" src="../img/' . $donnees['image'] . '">'
-                    . '<div class="text_add">
-                    <p class="blabla">' . $donnees['nom'] . '</p>'
-                    . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
-
-                    .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
-                    . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
-                    . '</p>'
-                    . "<br />" . 'Description : ' . " " . $donnees['description']
-                    . '<br />' . '</div>'
-                    . '<a href="http://localhost/LeoJas-Airbnb/pages/reservation.php">
-                        <div class="add_reservation">
-                            <form action="annonces.php" method="get">
-                                <button class="btn primary outline opening txt-orange light-2" id="btn_reserve" type="submit" name="reserver" value="' . $donnees['id'] . '"><span class="outline-text"> Reserver </span>
-                                </button>
-                            </form>
-                        </div>
-                    </a>
-            </div>';
-        }
-        $req->closeCursor();
-    }
-}
-
 function annonces_Client()
 {
     try {
@@ -525,21 +551,21 @@ function annonces_Client()
     $id = $_SESSION['id'];
 
     $req = $bdd->query("SELECT * FROM annonce WHERE idhote LIKE $id");
-    $_SESSION['idannonce'] = "";
+    $_SESSION['idannonce'];
     while ($donnees = $req->fetch()) {
         echo
-        '<div class="container_add"> '
-        . '<img class="image_annonce" src="../img/' . $donnees['image'] . '">'
-        . '<div class="text_add">
+            '<div class="container_add"> '
+                . '<img class="image_annonce" alt="Image de lannonce" src="../img/' . $donnees['image'] . '">'
+                . '<div class="text_add">
             <p class="blabla">' . $donnees['nom'] . '</p>'
-        . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
+                . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
 
-        .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
-        . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
-        . '</p>'
-        . "<br />" . 'Description : ' . " " . $donnees['description']
-        . '<br />' . '</div></div>'
-                . '<a href="http://localhost/LeoJas-Airbnb/pages/reservation.php"> <form action="annonces.php" method="get"> <button type="submit" name="reserver" value="'. $donnees['id'] . '" class="btn primary outline opening txt-orange light-2"><span class="outline-text"> Rechercher </span></button></a> </form> </div> ';
+                .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
+                . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
+                . '</p>'
+                . "<br />" . 'Description : ' . " " . $donnees['description']
+                . '<br />' . '</div></div>'
+                . '<a href="http://localhost/LeoJas-Airbnb/pages/reservation.php"> <form action="annonces.php" method="get"> <button type="submit" name="reserver" value="' . $donnees['id'] . '" class="btn primary outline opening txt-orange light-2"><span class="outline-text"> Rechercher </span></button></a> </form> </div> ';
     }
     $req->closeCursor();
 }
@@ -587,19 +613,20 @@ function reqSearch()
     $req = $bdd->query("SELECT * 
     FROM annonce WHERE ville LIKE '%$ville%'AND typlogement LIKE '%$type%' AND voyageurs LIKE '%$place%' $prixS");
     while ($donnees = $req->fetch()) {
-        echo "<br>".
-        '<div class="container_add"> '
-        . '<img class="image_annonce" src="../img/' . $donnees['image'] . '">'
-        . '<div class="text_add">
+        echo '<div class="container_add"> '
+            . '<img class="image_annonce" alt="Image de lannonce" src="../img/' . $donnees['image'] . '">'
+            . '<div class="text_add">
             <p class="blabla">' . $donnees['nom'] . '</p>'
-        . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
-        .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
-        . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
-        . '</p>'
-        . "<br />" . 'Description : ' . " " . $donnees['description']
-        . '<br />' . '</div>'
-        . '<a href="http://localhost/LeoJas-Airbnb/pages/reservation.php"> <form  action="reservation.php" method="get"> <button id="btn_reservation" type="submit" name="reserver" value="'
-        . $donnees['id'] . '" class="btn primary outline opening txt-orange light-2"><span class="outline-text"> Reserver </span></button></a></form> </div> ';
+            . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
+            .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
+            . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
+            . '</p>'
+            . "<br />" . 'Description : ' . " " . $donnees['description']
+            . '<br />' . '</div>'
+            . '<form  action="reservation.php" method="get"> <button id="btn_reservation" type="submit" name="reserver" value="'
+            . $donnees['id'] . '" class="btn primary outline opening txt-orange light-2"><span class="outline-text"> Reserver </span></button><div class="hide"><input name="idhote" value="'
+            . $donnees['idhote'] . '"></div></div></form> </div> ';
+
         $_SESSION['idhote'] = $donnees['idhote'];
         $_SESSION['nomAnnonce'] = $donnees['nom'];
     }
@@ -621,17 +648,17 @@ function reqMyAnnonces()
 
     while ($donnees = $req->fetch()) {
         echo
-        '<div class="container_add"> '
-        . '<img class="image_annonce" src="../img/' . $donnees['image'] . '">'
-        . '<div class="text_add">
+            '<div class="container_add"> '
+                . '<img class="image_annonce" alt="Image de lannonce" src="../img/' . $donnees['image'] . '">'
+                . '<div class="text_add">
             <p class="blabla">' . $donnees['nom'] . '</p>'
-        . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
+                . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
 
-        .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
-        . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
-        . '</p>'
-        . "<br />" . 'Description : ' . " " . $donnees['description']
-        . '<br />' . '</div>'
+                .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
+                . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
+                . '</p>'
+                . "<br />" . 'Description : ' . " " . $donnees['description']
+                . '<br />' . '</div>'
                 . '<a href="http://localhost/LeoJas-Airbnb/pages/mod_annonce.php">
         <form action="" method="get"><button class="btn small outline  opening txt-orange light-3" id="btn_modAdd" type="submit" name="modify" value="' . $donnees['id'] . '"><span class="outline-text">Modifier</span></button></form>'
                 . '<form action="" method="get"><button class="btn small outline  opening txt-orange light-3" id="btn_delAdd" type="submit" name="delete" value="' . $donnees['id'] . '"><span class="outline-text">Supprimer</span></button></form> </a></div>';
@@ -660,7 +687,7 @@ function reqReservation()
         'startbooking' => $_SESSION['startbooking'],
         'endbooking' => $_SESSION['endbooking'],
         'prix' => $_SESSION['prix'],
-        'idannonce' => $_SESSION['idannonce'],
+        'idannonce' => $_GET['reserver'],
         'idreserveur' => $_SESSION['id'],
         'idhote' => $_SESSION['idhote']
     ]);
@@ -669,10 +696,9 @@ function reqReservation()
 
 function goToReserver()
 {
-    if (isset($_GET['reserver']) && $_SESSION['login'] == 'yes') {
+
+    if (isset($_GET['reserver']) && isset($_SESSION['login'])) {
         $_SESSION['idannonce'] = $_GET['reserver'];
-        selectMailHote();
-        header('Location: http://localhost/LeoJas-Airbnb/pages/reservation.php');
     }
 }
 
@@ -683,6 +709,7 @@ function selectMailHote()
     } catch (Exception $e) {
         die('Erreur : ' . $e->getMessage());
     }
+    print_r($_SESSION['idhote']);
     $idhote = $_SESSION['idhote'];
     $req = $bdd->query("SELECT mail FROM users WHERE id=$idhote");
     $donnees = $req->fetch();
@@ -723,33 +750,38 @@ function deleted()
 
 function calculPrix()
 {
-    try {
-        $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
+    if (isset($_POST['calcul'])) {
+        try {
+            $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+        $idannonce = $_GET['reserver'];
+        $nbPersonne = $_POST['nbPersonne'];
+        $date1 = strtotime($_POST['endbooking']);
+        $date2 = strtotime($_POST['startbooking']);
+        $nbJoursSec = $date1 - $date2;
+        $nbJour = $nbJoursSec / 86400;
+        $req = $bdd->query("SELECT prix FROM annonce WHERE id LIKE $idannonce");
+        while ($donnees = $req->fetch()) {
+            $prix = $donnees['prix'];
+            $_SESSION['prix'] = $prix;
+        }
+        $prix = $_SESSION['prix'];
+        $req->closeCursor();
+
+        if ($_POST['endbooking'] > $_POST['startbooking']) {
+
+            $prix = $prix * $nbPersonne * $nbJour;
+            $_SESSION['prix'] = $prix;
+            $_SESSION['valide'] = "oui";
+        } else {
+            $prix = "";
+            echo '<body onLoad="alert(\'ATTENTION Date de début et fin de séjour inversée\')">';
+            $_SESSION['valide'] = "non";
+        }
+        return $prix;
     }
-    $idannonce = $_SESSION['idannonce'];
-    $nbPersonne = $_GET['nbPersonne'];
-    $date1 = strtotime($_GET['endbooking']);
-    $date2 = strtotime($_GET['startbooking']);
-    $nbJoursSec = $date1 - $date2;
-    $nbJour = $nbJoursSec / 86400;
-    $req = $bdd->query("SELECT prix FROM annonce WHERE id LIKE $idannonce");
-    while ($donnees = $req->fetch()) {
-        $prix = $donnees['prix'];
-    }
-    $req->closeCursor();
-    $_SESSION['prix'] = $prix;
-    if ($_GET['endbooking'] > $_GET['startbooking']) {
-        $prix = $prix * $nbPersonne * $nbJour;
-        $_SESSION['valide'] = "oui";
-        $_SESSION['prix'] = $prix;
-    } else {
-        $prix = "";
-        echo '<body onLoad="alert(\'ATTENTION Date de début et fin de séjour inversée\')">';
-        $_SESSION['valide'] = "non";
-    }
-    return $prix;
 }
 
 function reqSelecSolde()
@@ -765,14 +797,12 @@ function reqSelecSolde()
         $_SESSION['soldeClient'] = $donnees['solde'];
     }
     $req->closeCursor();
-
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
     } catch (Exception $e) {
         die('Erreur : ' . $e->getMessage());
     }
-    $id = $_SESSION['idhote'];
-    $id = $_SESSION['id'];
+    $id = $_GET['idhote'];
     $req = $bdd->query("SELECT solde FROM users WHERE id=$id");
     while ($donnees = $req->fetch()) {
         $_SESSION['soldeHote'] = $donnees['solde'];
@@ -803,7 +833,7 @@ function updateSolde()
     $req = $bdd->prepare("UPDATE users SET solde=:solde WHERE id=:id ");
     $req->execute([
         'solde' => $_SESSION['soldeHote'],
-        'id' => $_SESSION['idhote']
+        'id' => $_GET['idhote']
     ]);
     $req->closeCursor();
 }
@@ -816,25 +846,23 @@ function valeurMax()
 
 function affichePrix()
 {
-    if (isset($_GET['calcul']) && $_SESSION['valide'] = "oui") {
+    if (isset($_POST['calcul']) && $_SESSION['valide'] = "oui") {
         echo calculPrix();
-        echo getPossibleReservation();
+        echo reqDateBooking();
     }
-    //else echo "Choisissez des dates valides";   
+    //else echo "Choisissez des dates valides et appuyez sur le bouton verifier;   
 }
 
 function addBooking()
 {
-    if (isset($_POST['boom']) && $_SESSION['valide'] = "oui") {
+    if (isset($_POST['boom'])) {
         reqSelecSolde();
         updateSolde();
         reqReservation();
-        mailConfirmationHote();
-        mailConfirmationReserveur();
-    } else echo "Choisissez des dates valides";
+    } else echo "<p class='bold_p'>Choisissez des dates valides</p>";
 }
 
-function getPossibleReservation()
+function reqDateBooking()
 {
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=airbnb;charset=utf8', 'root', '');
@@ -843,38 +871,16 @@ function getPossibleReservation()
     }
     $req = $bdd->prepare("SELECT * FROM booking WHERE idannonce=?
     HAVING endbooking > ? AND startbooking < ?");
-    $req->execute(array($_SESSION['idannonce'], $_GET['startbooking'], $_GET['endbooking']));
+    $req->execute(array($_GET['reserver'], $_POST['startbooking'], $_POST['endbooking']));
     $donnees = $req->fetch();
 
     if ($donnees['idannonce']) {
         echo '<br><br> Le bien que vous avez choisis à cette date est indisponible.';
     } else {
         echo '<br> La période de séjour choisis est disponible';
-        $_SESSION['startbooking'] = $_GET['startbooking'];
-        $_SESSION['endbooking'] = $_GET['endbooking'];
+        $_SESSION['startbooking'] = $_POST['startbooking'];
+        $_SESSION['endbooking'] = $_POST['endbooking'];
     }
-}
-
-function mailConfirmationHote()
-{
-    $nom = $_SESSION['nomAnnonce'];
-    $from = $_SESSION['mailUser'];
-    $to = $_SESSION['mailHote'];
-    $subject = "Confirmation Reservation";
-    $message = "Votre annonce " . $nom . " a été réservée";
-    $headers = "From:" . $from;
-    mail($to, $subject, $message, $headers);
-}
-
-function mailConfirmationReserveur()
-{
-    $nom = $_SESSION['nomAnnonce'];
-    $from = $_SESSION['mailHote'];
-    $to = $_SESSION['mailUser'];
-    $subject = "Vérification PHP mail";
-    $message = "Vous avez bien réservé l'annonce   " . $nom;
-    $headers = "From:" . $from;
-    mail($to, $subject, $message, $headers);
 }
 
 function reqAnnonceResa()
@@ -884,23 +890,22 @@ function reqAnnonceResa()
     } catch (Exception $e) {
         die('Erreur : ' . $e->getMessage());
     }
-    $id = $_SESSION['idannonce'];
-
+    $id = $_GET['reserver'];
     $req = $bdd->query("SELECT * FROM annonce WHERE id=$id");
     while ($donnees = $req->fetch()) {
         echo
             '<div class="container_add"> '
-                . '<img class="image_annonce" src="../img/' . $donnees['image'] . '">'
+                . '<img class="image_annonce" alt="Image de lannonce" src="../img/' . $donnees['image'] . '">'
                 . '<div class="text_add">
-                    <p class="blabla">' . $donnees['nom'] . '</p>'
+        <p class="blabla">' . $donnees['nom'] . '</p>'
                 . $donnees['typlogement'] . " - " . $donnees['voyageurs'] . " " . 'Voyageurs'
 
                 .  '<p class="bloublou">' . $donnees['prix'] . " " . '€ / nuit' . '</p>'
                 . '<p class="bleble">' . $donnees['addresse'] . "<br />" . $donnees['ville'] . "," . " " . $donnees['codepostal']
                 . '</p>'
                 . "<br />" . 'Description : ' . " " . $donnees['description']
-                . '<br />' . '</div></div>';
-                $_SESSION['voyageurs'] = $donnees['voyageurs'];
+                . '<br />' . '</div>';
+        $_SESSION['voyageurs'] = $donnees['voyageurs'];
     }
     $req->closeCursor();
 }

@@ -30,15 +30,18 @@ CREATE TABLE IF NOT EXISTS `annonce` (
   `description` varchar(100) DEFAULT NULL,
   `image` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table airbnb.annonce : ~4 rows (environ)
+-- Listage des données de la table airbnb.annonce : ~7 rows (environ)
 /*!40000 ALTER TABLE `annonce` DISABLE KEYS */;
 INSERT INTO `annonce` (`id`, `idhote`, `nom`, `voyageurs`, `typlogement`, `prix`, `ville`, `addresse`, `codepostal`, `description`, `image`) VALUES
-	(63, 2, 'esgesgsesse', 1, 'Appartement', 8489, 'esgseges', 'gessegseg', 151512, 'esgsegesgsdgdsgs', 'background_index.jpg'),
-	(68, 3, 'aaaaaa', 1, 'Appartement', 145, 'fezfsefsef', 'fsefesfsefe', 14520, 'dszfsegdes eszfse ferds fge esf se fes', 'chambre1.jpg'),
-	(69, 3, 'gegegeg', 4, 'Maison', 45, 'dzdfszedfzqdf', 'dzfzfzsf', 78512, 'fszfzffge ef esh g grd ghrd hjrd hgrd hdr', 'Paysage4.jpg'),
-	(70, 2, 'jean', 1, 'Appartement', 80, 'efesfesf', 'efsefesfes', 45120, 'zfzqfzqfzqfzfzqf', 'test.jpg');
+	(76, 4, 'Maison de plein Pied', 5, 'Maison', 60, 'Biarritz', '25 rue des Hortensia', 64200, 'Maison chaleureuse, non loin de la plage, elle reste l\'emplacement idéal pour des vacances', 'maison1.jpg'),
+	(77, 4, 'Maison de Type Boisé', 4, 'Maison', 55, 'Lyon', '145 Bis Rue des Lilas', 69000, 'Maison atypique, induisant boiserie et convivialité !', 'maison4.jpg'),
+	(78, 5, 'Château Antique', 5, 'Chambre d\'hôtes', 70, 'Launac', '1 Chemin des Echapés', 31330, 'Château perché sur des hauteurs. RAS  !', 'maison3.jpg'),
+	(79, 5, 'Maison Diforme', 3, 'Maison', 58, 'Royan', '22 Rue Alsace Terier', 17200, 'Maison aux formes plutôt douteuses ! ;)', 'maison2.jpg'),
+	(80, 6, 'Longère Bretonne', 3, 'Maison', 45, 'Ile De Groix', '9 rue dranveur', 56590, 'Longère bretonne, typique du coin ', 'maison5.jpg'),
+	(81, 6, 'Maison Reculée.. ', 2, 'Maison', 42, 'Santo-Pietro-di-Venaco', '2 Chemin du Maquis', 20250, 'Maison reculée au sein de la forêt Corse ', 'maison7.jpg'),
+	(82, 6, 'Appt HyperCentre', 2, 'Appartement', 60, 'Montmartre ', '13 Allée des Missteux', 75018, 'Appartement Hyper-centre, chaleureux.', 'appartement.jpg');
 /*!40000 ALTER TABLE `annonce` ENABLE KEYS */;
 
 -- Listage de la structure de la table airbnb. booking
@@ -52,17 +55,10 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `idreserveur` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idannonce` (`idannonce`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table airbnb.booking : ~6 rows (environ)
+-- Listage des données de la table airbnb.booking : ~0 rows (environ)
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` (`id`, `idhote`, `startbooking`, `prix`, `endbooking`, `idannonce`, `idreserveur`) VALUES
-	(2, 2, '2020-04-23', 76401, '2020-04-26', 63, 4),
-	(3, 3, '2020-04-14', 1000, '2020-04-19', 64, 4),
-	(4, 2, '2020-04-07', 33956, '2020-04-11', 63, 4),
-	(5, 3, '2020-05-14', 400, '2020-05-16', 64, 4),
-	(6, 3, '2020-06-10', 2800, '2020-06-17', 64, 4),
-	(7, 3, '2020-07-08', 200, '2020-07-09', 64, 4);
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 
 -- Listage de la structure de la table airbnb. users
@@ -77,16 +73,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `accNom` varchar(50) DEFAULT NULL,
   `pwd` varchar(50) DEFAULT NULL,
   `tel` int(50) DEFAULT NULL,
+  `image` longtext,
   `solde` double DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- Listage des données de la table airbnb.users : ~3 rows (environ)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `nom`, `prenom`, `age`, `mail`, `ville`, `cp`, `accNom`, `pwd`, `tel`, `solde`) VALUES
-	(2, 'a', 'a', '2020-04-02', 'aaa', 'dezd', 350, 'aa', 'aa', 45454545, 0),
-	(3, 'aa', 'DES', '2020-04-01', 'jason.lalande@outlook.fr', 'TOULOUSE', 31000, 'Jean', 'aa', 680786961, 0),
-	(4, 'Jason', 'Jason', '2020-04-02', 'leo.laurens@gmail.com', 'TOULOUSE', 31000, 'aa', 'jj', 680786961, 0);
+INSERT INTO `users` (`id`, `nom`, `prenom`, `age`, `mail`, `ville`, `cp`, `accNom`, `pwd`, `tel`, `image`, `solde`) VALUES
+	(4, 'DURAND', 'Jean', '1997-02-05', 'Jean.DURAND@gmail.com', 'Marseille', 13000, 'User1', 'Passw0rd', 584755212, 'MSN.jpg', 0),
+	(5, 'LAURENS', 'Leo', '1996-06-06', 'leo.laurens@gmail.com', 'Pau', 64000, 'User2', 'Passw0rd', 685696243, 'leo.jpg', 0),
+	(6, 'LALANDE', 'Jason', '1996-07-31', 'jason.lalande@outlook.fr', 'Toulouse', 31000, 'User3', 'Passw0rd', 680786961, 'moi2.png', 0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
